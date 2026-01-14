@@ -3,6 +3,7 @@
 std::string rock_name;
 int rockprompt_running = 1;
 int rock_mood = 1; // 1 = happy, 2 = average, 3 = sad, 4 = angry
+int rock_score = 100; // 100 = happy, below 60 = average below 40 = sad, angry is not here because it only lasts 2 seconds
 
 class rock_emotions {
     public:
