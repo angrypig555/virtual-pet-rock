@@ -46,6 +46,8 @@ class commands {
             std::cout << "help - display all the commands" << std::endl;
             std::cout << "quit - exits the program" << std::endl;
             std::cout << "wisdom - get wisdom from thy rock" << std::endl;
+            std::cout << "status - displays current status of the rock" << std::endl;
+            std::cout << "wisdom-c - c/c++ related wisdom" << std::endl;
         }
         void quit() {
             rockprompt_running = 0;
@@ -85,6 +87,28 @@ class commands {
                     break;
                 default:
                     std::cout << "something went wrong in commands.wisdom, please open an issue" << std::endl;
+                }
+            }
+        void status() {
+            std::cout << "The current status of the rock:" << std::endl;
+            std::cout << "Rock score: " << rock_score << std::endl;
+            std::cout << "100 - 60 -- happy; 60 - 40 -- average; 40 - 0 -- sad" << std::endl;
+            
+        }
+        void wisdomc() {
+            int wcrng = (rand() % 3) + 1;
+            switch(wcrng) {
+                case 1:
+                    rock_print("did you add return 0; ?", 1);
+                    break;
+                case 2:
+                    rock_print("SEMICOLON!!!!!!!", 1);
+                    break;
+                case 3:
+                    rock_print("don't tell anyone but gotos are actually usable", 1);
+                    break;
+                default:
+                    break;
             }
         }
 };
@@ -109,6 +133,8 @@ int command_to_id(const std::string& cmd) {
     if (cmd == "help") return 1;
     if (cmd == "quit") return 2;
     if (cmd == "wisdom") return 3;
+    if (cmd == "status") return 4;
+    if (cmd == "wisdom-c") return 5;
     return 0;
 }
 
@@ -123,6 +149,12 @@ int execute_command(int cmd) {
             break;
         case 3:
             comd.wisdom();
+            break;
+        case 4:
+            comd.status();
+            break;
+        case 5:
+            comd.wisdomc();
             break;
         default:
             std::cout << "unknown command - see 'help' for a list of commands" << std::endl;
