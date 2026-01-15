@@ -1,6 +1,8 @@
 #include<iostream>
 #include<cstdlib>
 #include<ctime>
+#include<fstream>
+#include<string>    
 
 std::string rock_name;
 int rockprompt_running = 1;
@@ -88,6 +90,20 @@ class commands {
 };
 
 
+void readconf() {
+    std::ifstream confile("ROCKCONF.cfg");
+    if (!confile) {
+        std::cout << "Config file not detected, creating new one named ROCKCONF.cfg" << std::endl << "If you already have one, please place it next to the executable." << std::endl;
+        std::cout << "please name your rock: ";
+        std::cin >> rock_name;
+        
+        std::ofstream newconf("ROCKCONF.cfg");
+        newconf << rock_name;
+        std:: cout << "config written to ROCKCONF.cfg" << std::endl;
+    } else {
+        std::getline(confile, rock_name);
+    }
+}
 
 int command_to_id(const std::string& cmd) {
     if (cmd == "help") return 1;
@@ -119,8 +135,7 @@ int main() {
     srand(time(0));
     rock_emotions re;
     std::cout << "virtual pet rock - its better than ai v1" << std::endl;
-    std::cout << "please name your rock: (this will be later saved to a config file) ";
-    std::cin >> rock_name;
+    readconf();
     std::cout << "your pet rock is happy to see you";
     std::cout << re.happy << std::endl;
     rock_print("hi", 0);
