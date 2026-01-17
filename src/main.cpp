@@ -8,6 +8,8 @@ std::string rock_name;
 int rockprompt_running = 1;
 int rock_mood = 1; // 1 = happy, 2 = average, 3 = sad, 4 = angry
 int rock_score = 100; // 100 = happy, below 60 = average below 40 = sad, angry is not here because it only lasts 2 seconds
+int hunger;
+int cycle;
 
 class rock_emotions {
     public:
@@ -48,6 +50,7 @@ class commands {
             std::cout << "wisdom - get wisdom from thy rock" << std::endl;
             std::cout << "status - displays current status of the rock" << std::endl;
             std::cout << "wisdom-c - c/c++ related wisdom" << std::endl;
+            std::cout << "feed - feed the rock rock food" << std::endl;
         }
         void quit() {
             rockprompt_running = 0;
@@ -93,7 +96,19 @@ class commands {
             std::cout << "The current status of the rock:" << std::endl;
             std::cout << "Rock score: " << rock_score << std::endl;
             std::cout << "100 - 60 -- happy; 60 - 40 -- average; 40 - 0 -- sad" << std::endl;
+            std::cout << "Hunger: " << hunger << std::endl;
+            std::cout << "100 - very hungry, 0 - not hungry" << std::endl;
             
+        }
+        void feed() {
+            if (hunger > 0 and hunger <= 100) {
+                hunger -= 25;
+                if (rock_score < 100) {
+                    rock_score += 10;
+                }
+            } else {
+                rock_print("im not hungry", 1);
+            }
         }
         void wisdomc() {
             int wcrng = (rand() % 3) + 1;
@@ -135,6 +150,7 @@ int command_to_id(const std::string& cmd) {
     if (cmd == "wisdom") return 3;
     if (cmd == "status") return 4;
     if (cmd == "wisdom-c") return 5;
+    if (cmd == "feed") return 6;
     return 0;
 }
 
@@ -156,6 +172,9 @@ int execute_command(int cmd) {
         case 5:
             comd.wisdomc();
             break;
+        case 6:
+            comd.feed();
+            break;
         default:
             std::cout << "unknown command - see 'help' for a list of commands" << std::endl;
             break;
@@ -163,7 +182,20 @@ int execute_command(int cmd) {
     return 0;
 }
 
+void comp_cycles() {
+    if (cycle == 5 and hunger >= 0 and hunger < 100) {
+        hunger += 10;
+        cycle = 0;
+        
+    }
+    if (hunger == 100) {
+        rock_print("please feed me :(", 1);
+        rock_score -= 10;
+    }
+}
+
 int main() {
+    
     srand(time(0));
     rock_emotions re;
     std::cout << "virtual pet rock - its better than ai v1" << std::endl;
@@ -178,5 +210,8 @@ int main() {
         std::cin >> input;
         int cmd_code = command_to_id(input);
         execute_command(cmd_code);
+        cycle += 1;
+        comp_cycles();
     }
+    
 }
