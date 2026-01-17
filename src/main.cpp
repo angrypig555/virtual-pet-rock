@@ -12,7 +12,7 @@ int hunger;
 int cycle;
 
 class rock_emotions {
-    public:
+    public: // this class contains all of the ascii art in raw format for the rock, pasted from ascii-art/ascii_art.txt
         std::string happy = R"(
           _______
          /       \
@@ -28,7 +28,7 @@ class rock_emotions {
 };
 
 void rock_print(std::string to_say, int speak) {
-    rock_emotions re;
+    rock_emotions re; // this is a function for printing with the rock, speak 1 = rock_speaking speak 2 = happy_rock, everything other no rock
     switch(speak) {
         case 0:
             break;
@@ -46,7 +46,7 @@ void rock_print(std::string to_say, int speak) {
 
 class commands {
     public:
-        void help() {
+        void help() { // help command, prints all the commands
             std::cout << "virtual pet rock v1, commands" << std::endl;
             std::cout << "help - display all the commands" << std::endl;
             std::cout << "quit - exits the program" << std::endl;
@@ -60,7 +60,7 @@ class commands {
             rock_print("see ya later", 0);
             rockprompt_running = 0;
         }
-        void wisdom() {
+        void wisdom() { // every wisdom command prints wisdom with an rng and a switch case
             int wrng = (rand() % 10) + 1;
             switch(wrng) {
                 case 1:
@@ -106,7 +106,7 @@ class commands {
             
         }
         void feed() {
-            if (hunger > 0 and hunger <= 100) {
+            if (hunger > 0 and hunger <= 100) { // this checks if the rock is hungry, 0 meaning not hungry 100 meaning very hungry
                 hunger -= 25;
                 rock_print("yummy!", 2);
                 if (rock_score < 100) {
@@ -158,7 +158,7 @@ class commands {
 };
 
 
-void readconf() {
+void readconf() { // this function reads and creates the config
     std::ifstream confile("ROCKCONF.cfg");
     if (!confile) {
         std::cout << "Config file not detected, creating new one named ROCKCONF.cfg" << std::endl << "If you already have one, please place it next to the executable." << std::endl;
@@ -174,7 +174,7 @@ void readconf() {
 }
 
 int command_to_id(const std::string& cmd) {
-    if (cmd == "help") return 1;
+    if (cmd == "help") return 1; // this handles commands
     if (cmd == "quit") return 2;
     if (cmd == "wisdom") return 3;
     if (cmd == "status") return 4;
@@ -215,7 +215,7 @@ int execute_command(int cmd) {
     return 0;
 }
 
-void comp_cycles() {
+void comp_cycles() { // everything that runs in a cycle goes here like the random wisdom and hunger logic
     if (cycle == 5 and hunger >= 0 and hunger < 100) {
         hunger += 10;
         cycle = 0;
@@ -245,7 +245,7 @@ int main() {
     std::cout << re.happy << std::endl;
     rock_print("hi", 0);
     std::cout << "rockprompt launched, type help for commands" << std::endl;
-    while (rockprompt_running == 1) {
+    while (rockprompt_running == 1) { // main loop
         std::string input;
         std::cout << "rockprompt> ";
         std::cin >> input;
