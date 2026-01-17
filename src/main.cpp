@@ -35,6 +35,9 @@ void rock_print(std::string to_say, int speak) {
         case 1:
             std::cout << re.speaking << std::endl;
             break;
+        case 2:
+            std::cout << re.happy << std::endl;
+            break;
         default:
             break;
     }
@@ -103,6 +106,7 @@ class commands {
         void feed() {
             if (hunger > 0 and hunger <= 100) {
                 hunger -= 25;
+                rock_print("yummy!", 2);
                 if (rock_score < 100) {
                     rock_score += 10;
                 }
@@ -186,6 +190,14 @@ void comp_cycles() {
     if (cycle == 5 and hunger >= 0 and hunger < 100) {
         hunger += 10;
         cycle = 0;
+        int cycrng = (rand() % 2) + 1;
+        switch(cycrng) {
+            case 1:
+                execute_command(3);
+                break;
+            default:
+                break;
+        }
         
     }
     if (hunger == 100) {
