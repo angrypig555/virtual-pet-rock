@@ -53,9 +53,11 @@ class commands {
             std::cout << "wisdom - get wisdom from thy rock" << std::endl;
             std::cout << "status - displays current status of the rock" << std::endl;
             std::cout << "wisdom-c - c/c++ related wisdom" << std::endl;
+            std::cout << "wisdom-py - python related wisdom" << std::endl;
             std::cout << "feed - feed the rock rock food" << std::endl;
         }
         void quit() {
+            rock_print("see ya later", 0);
             rockprompt_running = 0;
         }
         void wisdom() {
@@ -130,6 +132,29 @@ class commands {
                     break;
             }
         }
+        void wisdompy() {
+            int pyrng = (rand() % 5) + 1;
+            switch(pyrng) {
+                case 1:
+                    rock_print("don't worry, it works on my machine", 1);
+                    break;
+                case 2:
+                    rock_print("no, its a feature that the user has to set up a venv", 1);
+                    break;
+                case 3:
+                    rock_print("oops, you need an older version of python for this library", 1);
+                    break;
+                case 4:
+                    rock_print("pip --break-system-packages", 1);
+                    break;
+                case 5:
+                    rock_print("but it worked on my machine", 1);
+                    break;
+                default:
+                    break;
+
+            }
+        }
 };
 
 
@@ -155,6 +180,7 @@ int command_to_id(const std::string& cmd) {
     if (cmd == "status") return 4;
     if (cmd == "wisdom-c") return 5;
     if (cmd == "feed") return 6;
+    if (cmd == "wisdom-py") return 7;
     return 0;
 }
 
@@ -178,6 +204,9 @@ int execute_command(int cmd) {
             break;
         case 6:
             comd.feed();
+            break;
+        case 7:
+            comd.wisdompy();
             break;
         default:
             std::cout << "unknown command - see 'help' for a list of commands" << std::endl;
