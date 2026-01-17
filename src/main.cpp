@@ -76,7 +76,7 @@ class commands {
                     rock_print("bogos binted?", 1);
                     break;
                 case 5:
-                    rock_print("you remember to terminate your printf line?", 1);
+                    rock_print("did you remember to terminate your printf line?", 1);
                     break;
                 case 6:
                     rock_print("don't forget to renew your MOK keys", 1);
