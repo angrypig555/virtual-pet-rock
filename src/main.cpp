@@ -117,7 +117,7 @@ class commands {
             }
         }
         void wisdomc() {
-            int wcrng = (rand() % 3) + 1;
+            int wcrng = (rand() % 4) + 1;
             switch(wcrng) {
                 case 1:
                     rock_print("did you add return 0; ?", 1);
@@ -127,6 +127,9 @@ class commands {
                     break;
                 case 3:
                     rock_print("don't tell anyone but gotos are actually usable", 1);
+                    break;
+                case 4:
+                    rock_print("did you use gcc on a c++ program?", 1);
                     break;
                 default:
                     break;
@@ -145,7 +148,7 @@ class commands {
                     rock_print("oops, you need an older version of python for this library", 1);
                     break;
                 case 4:
-                    rock_print("pip --break-system-packages", 1);
+                    rock_print("do not pip --break-system-packages", 1);
                     break;
                 case 5:
                     rock_print("but it worked on my machine", 1);
