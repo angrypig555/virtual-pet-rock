@@ -4,13 +4,13 @@
 #include<fstream>
 #include<string>    
 
-std::string rock_name;
-int rockprompt_running = 1;
+std::string rock_name; // name of the rock that is in the config / will be saved there
+int rockprompt_running = 1; // the "while" loop
 int rock_mood = 1; // 1 = happy, 2 = average, 3 = sad, 4 = angry
 int rock_score = 100; // 100 = happy, below 60 = average below 40 = sad, angry is not here because it only lasts 2 seconds
-int hunger;
-int cycle;
-int anger;
+int hunger; // 0 not hungry; 100 very hungry
+int cycle; // counter of how many times the main loop ran, resets every 5 times
+int anger; // 0 calm; 100 very angry
 
 class rock_emotions {
     public: // this class contains all of the ascii art in raw format for the rock, pasted from ascii-art/ascii_art.txt
