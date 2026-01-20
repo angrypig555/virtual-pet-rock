@@ -10,6 +10,7 @@ int rock_mood = 1; // 1 = happy, 2 = average, 3 = sad, 4 = angry
 int rock_score = 100; // 100 = happy, below 60 = average below 40 = sad, angry is not here because it only lasts 2 seconds
 int hunger;
 int cycle;
+int anger;
 
 class rock_emotions {
     public: // this class contains all of the ascii art in raw format for the rock, pasted from ascii-art/ascii_art.txt
@@ -25,6 +26,12 @@ class rock_emotions {
        / O     O \
        \    O    /
         \-------/)";
+        std::string angry = R"(
+         _______
+        / \   / \
+       / O     O \
+       \    O    /
+        \-------/)";
 };
 
 void rock_print(std::string to_say, int speak) {
@@ -37,6 +44,9 @@ void rock_print(std::string to_say, int speak) {
             break;
         case 2:
             std::cout << re.happy << std::endl;
+            break;
+        case 3:
+            std::cout << re.angry << std::endl;
             break;
         default:
             break;
@@ -55,6 +65,7 @@ class commands {
             std::cout << "wisdom-c - c/c++ related wisdom" << std::endl;
             std::cout << "wisdom-py - python related wisdom" << std::endl;
             std::cout << "feed - feed the rock rock food" << std::endl;
+            std::cout << "insult - insult the rock, why would you do that" << std::endl;
         }
         void quit() {
             rock_print("see ya later", 0);
@@ -103,11 +114,14 @@ class commands {
             std::cout << "100 - 60 -- happy; 60 - 40 -- average; 40 - 0 -- sad" << std::endl;
             std::cout << "Hunger: " << hunger << std::endl;
             std::cout << "100 - very hungry, 0 - not hungry" << std::endl;
+            std::cout << "Anger: " << anger << std::endl;
+            std::cout << "If it reaches 100, you are in deep trouble. Can only go down by feeding." << std::endl;
             
         }
         void feed() {
             if (hunger > 0 and hunger <= 100) { // this checks if the rock is hungry, 0 meaning not hungry 100 meaning very hungry
                 hunger -= 25;
+                anger -= 25;
                 rock_print("yummy!", 2);
                 if (rock_score < 100) {
                     rock_score += 10;
@@ -158,6 +172,34 @@ class commands {
 
             }
         }
+        void insult() {
+          anger += 25;
+          rock_score -= 10;
+          if (anger >= 100) {
+            rock_print("THATS IT IM LEAVING", 3);
+            rockprompt_running = 0;
+          }
+          int irng = (rand() % 5) + 1;
+          switch(irng) {
+            case 1:
+                rock_print("nuh uh", 3);
+                break;
+            case 2:
+                rock_print("im telling ur parents", 3);
+                break;
+            case 3:
+                rock_print("weak insult", 3);
+                break;
+            case 4:
+                rock_print("better scramble like an egg before you get folded like an omlette", 3);
+                break;
+            case 5:
+                rock_print("why", 3);
+                break;
+            default:
+                break;
+          }
+        }
 };
 
 
@@ -184,6 +226,7 @@ int command_to_id(const std::string& cmd) {
     if (cmd == "wisdom-c") return 5;
     if (cmd == "feed") return 6;
     if (cmd == "wisdom-py") return 7;
+    if (cmd == "insult") return 8;
     return 0;
 }
 
@@ -210,6 +253,9 @@ int execute_command(int cmd) {
             break;
         case 7:
             comd.wisdompy();
+            break;
+        case 8:
+            comd.insult();
             break;
         default:
             std::cout << "unknown command - see 'help' for a list of commands" << std::endl;
