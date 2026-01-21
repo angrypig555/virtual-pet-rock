@@ -3,6 +3,7 @@
 #include<ctime>
 #include<fstream>
 #include<string>    
+#include<algorithm>
 
 std::string rock_name; // name of the rock that is in the config / will be saved there
 int rockprompt_running = 1; // the "while" loop
@@ -11,6 +12,12 @@ int rock_score = 100; // 100 = happy, below 60 = average below 40 = sad, angry i
 int hunger; // 0 not hungry; 100 very hungry
 int cycle; // counter of how many times the main loop ran, resets every 5 times
 int anger; // 0 calm; 100 very angry
+
+int wu_g;
+int wu_a;
+int wu_c;
+int wu_py;
+std::string cfav_wisdom;
 
 class rock_emotions {
     public: // this class contains all of the ascii art in raw format for the rock, pasted from ascii-art/ascii_art.txt
@@ -66,12 +73,14 @@ class commands {
             std::cout << "wisdom-py - python related wisdom" << std::endl;
             std::cout << "feed - feed the rock rock food" << std::endl;
             std::cout << "insult - insult the rock, why would you do that" << std::endl;
+            std::cout << "wisdom-asm x86 NASM assembly related wisdom" << std::endl;
         }
         void quit() {
             rock_print("see ya later", 0);
             rockprompt_running = 0;
         }
         void wisdom() { // every wisdom command prints wisdom with an rng and a switch case
+            wu_g += 1;
             int wrng = (rand() % 10) + 1;
             switch(wrng) {
                 case 1:
@@ -116,6 +125,7 @@ class commands {
             std::cout << "100 - very hungry, 0 - not hungry" << std::endl;
             std::cout << "Anger: " << anger << std::endl;
             std::cout << "If it reaches 100, you are in deep trouble. Can only go down by feeding." << std::endl;
+            std::cout << "Favourite wisdom type: " << cfav_wisdom << std::endl;
             
         }
         void feed() {
@@ -131,6 +141,7 @@ class commands {
             }
         }
         void wisdomc() {
+            wu_c += 1;
             int wcrng = (rand() % 4) + 1;
             switch(wcrng) {
                 case 1:
@@ -150,6 +161,7 @@ class commands {
             }
         }
         void wisdompy() {
+            wu_py += 1;
             int pyrng = (rand() % 5) + 1;
             switch(pyrng) {
                 case 1:
@@ -200,6 +212,29 @@ class commands {
                 break;
           }
         }
+        void wisdomasm() {
+          wu_a += 1;
+          int warng = (rand() % 5) + 1;
+          switch(warng) {
+            case 1:
+              rock_print("did you int 0x80?", 1);
+              break;
+            case 2:
+              rock_print("did you assemble as 32 bit?", 1);
+              break;
+            case 3:
+              rock_print("the opposite of runs on all hardware", 1);
+              break;
+            case 4:
+              rock_print("for your interest, there are no booleans in assembly by default", 1);
+              break;
+            case 5:
+              rock_print("did you specify elf32?", 1);
+              break;
+            default:
+              break;
+          }
+        }
 };
 
 
@@ -218,6 +253,20 @@ void readconf() { // this function reads and creates the config
     }
 }
 
+// meant to be run everytime a wisdom is run
+void calc_fav_wisdom() {
+  int fav_wisdom = std::max({wu_a, wu_g, wu_c, wu_py});
+  if (fav_wisdom == wu_a) {
+    cfav_wisdom = "wisdom-asm";
+  } else if (fav_wisdom == wu_g) {
+    cfav_wisdom = "wisdom";
+  } else if (fav_wisdom == wu_c) {
+    cfav_wisdom = "wisdom-c";
+  } else if (fav_wisdom == wu_py) {
+    cfav_wisdom = "wisdom-py";
+  }
+}
+
 int command_to_id(const std::string& cmd) {
     if (cmd == "help") return 1; // this handles commands
     if (cmd == "quit") return 2;
@@ -227,6 +276,7 @@ int command_to_id(const std::string& cmd) {
     if (cmd == "feed") return 6;
     if (cmd == "wisdom-py") return 7;
     if (cmd == "insult") return 8;
+    if (cmd == "wisdom-asm") return 9;
     return 0;
 }
 
@@ -257,6 +307,9 @@ int execute_command(int cmd) {
         case 8:
             comd.insult();
             break;
+        case 9:
+            comd.wisdomasm();
+            break;
         default:
             std::cout << "unknown command - see 'help' for a list of commands" << std::endl;
             break;
@@ -265,6 +318,7 @@ int execute_command(int cmd) {
 }
 
 void comp_cycles() { // everything that runs in a cycle goes here like the random wisdom and hunger logic
+    calc_fav_wisdom();
     if (cycle == 5 and hunger >= 0 and hunger < 100) {
         hunger += 10;
         cycle = 0;
