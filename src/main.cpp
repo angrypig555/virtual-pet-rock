@@ -4,6 +4,7 @@
 #include<fstream>
 #include<string>    
 #include<algorithm>
+#include<cstdlib>
 
 std::string rock_name; // name of the rock that is in the config / will be saved there
 int rockprompt_running = 1; // the "while" loop
@@ -18,6 +19,8 @@ int wu_a;
 int wu_c;
 int wu_py;
 std::string cfav_wisdom;
+
+int isunix = 5; // predefined to check for first run clear
 
 class rock_emotions {
     public: // this class contains all of the ascii art in raw format for the rock, pasted from ascii-art/ascii_art.txt
@@ -74,6 +77,7 @@ class commands {
             std::cout << "feed - feed the rock rock food" << std::endl;
             std::cout << "insult - insult the rock, why would you do that" << std::endl;
             std::cout << "wisdom-asm x86 NASM assembly related wisdom" << std::endl;
+            std::cout << "clear - clears the screen" << std::endl;
         }
         void quit() {
             rock_print("see ya later", 0);
@@ -235,6 +239,32 @@ class commands {
               break;
           }
         }
+        void clear_screen() {
+          if (isunix == 5) {
+            int winclear = system("cls");
+            int uclear = system("clear");
+            if (winclear == 0) {
+              isunix = 0;
+            } else if (uclear == 0) {
+              isunix = 1;
+            } else {
+              isunix = 2;
+              std::cout << "error: terminal does not support clear" << std::endl;
+            }
+          }
+          switch(isunix) {
+            case 0:
+              system("cls");
+              break;
+            case 1:
+              system("clear");
+              break;
+            default:
+              break;
+          }
+  
+}
+
 };
 
 
@@ -267,6 +297,7 @@ void calc_fav_wisdom() {
   }
 }
 
+
 int command_to_id(const std::string& cmd) {
     if (cmd == "help") return 1; // this handles commands
     if (cmd == "quit") return 2;
@@ -277,6 +308,7 @@ int command_to_id(const std::string& cmd) {
     if (cmd == "wisdom-py") return 7;
     if (cmd == "insult") return 8;
     if (cmd == "wisdom-asm") return 9;
+    if (cmd == "clear") return 10;
     return 0;
 }
 
@@ -310,6 +342,9 @@ int execute_command(int cmd) {
         case 9:
             comd.wisdomasm();
             break;
+        case 10:
+            comd.clear_screen();
+            break;
         default:
             std::cout << "unknown command - see 'help' for a list of commands" << std::endl;
             break;
@@ -339,7 +374,8 @@ void comp_cycles() { // everything that runs in a cycle goes here like the rando
 }
 
 int main() {
-    
+    commands comd;
+    comd.clear_screen(); // this defines the os and also clears the screen
     srand(time(0));
     rock_emotions re;
     std::cout << "virtual pet rock - its better than ai v1" << std::endl;

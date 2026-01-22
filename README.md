@@ -9,6 +9,7 @@ A work in progress, these features are coming soon.
 ## How to build?
 To build this project, you need cmake and a compiler of your source.
 To compile it run ./build.sh.
+An AUR release may be released soon.
 
 ## Config
 All configurations are saved to a file called ROCKCONFIG.cfg
