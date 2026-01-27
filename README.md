@@ -4,7 +4,6 @@ Virtual pet rock is your cli buddy.
 It can tell you wisdom, you can feed it, you can anger him and more!
 It may even tell you coding advice!
 
-A work in progress, these features are coming soon.
 
 ## How to build?
 To build this project, you need cmake and a compiler of your source.
