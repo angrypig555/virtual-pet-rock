@@ -11,6 +11,16 @@ To build this project, you need cmake and a compiler of your source.
 To compile it run ./build.sh.
 An AUR release may be released soon.
 
+## How to build for windows?
+It is possible but not reccomended to build for windows.
+You need to have the mingw-w64-gcc compiler installled and run ./winbuild.sh
+Compiling is only possible from a linux machine.
+
+## KNOWN BUGS
+- Currently, the config system is broken on windows. It is caused by the 2 different systems using different methods to create files.
+
+If you would like to report a bug, please open an issue.
+
 ## Config
 All configurations are saved to a file called ROCKCONFIG.cfg
 If there isn't one already next to the executable, the program will create its own.

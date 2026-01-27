@@ -1,3 +1,7 @@
+// Licensed under the MIT License
+// See LICENSE file for more information
+// Copyright (c) 2026 angrypig555
+
 #include<iostream>
 #include<cstdlib>
 #include<ctime>
@@ -14,10 +18,10 @@ int hunger; // 0 not hungry; 100 very hungry
 int cycle; // counter of how many times the main loop ran, resets every 5 times
 int anger; // 0 calm; 100 very angry
 
-int wu_g;
-int wu_a;
-int wu_c;
-int wu_py;
+int wu_g; // wisdom
+int wu_a; // wisdom-asm
+int wu_c; // wisdom-c
+int wu_py; // wisdom-py
 std::string cfav_wisdom;
 
 int isunix = 5; // predefined to check for first run clear
@@ -281,7 +285,7 @@ void readconf() { // this function reads and creates the config
     } else {
         std::getline(confile, rock_name);
     }
-}
+} // this function only works on linux because its fundamentally different how windows and linux writes files.
 
 // meant to be run everytime a wisdom is run
 void calc_fav_wisdom() {
